@@ -1,4 +1,4 @@
-#ifndef FILTERDATE_H
+﻿#ifndef FILTERDATE_H
 #define FILTERDATE_H
 #include <cmath>
 #include <iomanip>
@@ -38,16 +38,16 @@ private:
                                              );
     void                                    Filter (QVector<qreal> &date, const size_t Ndegree,const size_t SizeRunningWindow
                                                     );
-    QVector< qreal >                        m_colCurvative;
-    QVector< qreal >                        m_colCurveRadius;
-    QVector< qreal >                        m_colValue;
-    QVector< qreal >                        m_colValueDev;
-    QVector< qreal >                        m_colValueDev2;
-    QVector< qreal >                        m_colValueDerivative;
-    QVector< qreal >                        m_colValueSecondDerivative;
-    QVector< QPair< qreal, qreal > >        m_colAproxPoly;
-    QVector< QPair< qreal, qreal > >        m_colVertices;
-    QVector< QPair< qreal, qreal > >        m_colMinVertices;
+    QVector< qreal >                        curvative;
+    QVector< qreal >                        curveRadius;
+    QVector< qreal >                        value;
+    QVector< qreal >                        valueDev;
+    QVector< qreal >                        valueDev2;
+    QVector< qreal >                        valueDerivative;
+    QVector< qreal >                        valueSecondDerivative;
+    QVector< QPair< qreal, qreal > >        aproxPoly;
+    QVector< QPair< qreal, qreal > >        vertices;
+    QVector< QPair< qreal, qreal > >        minVertices;
 };
 
 

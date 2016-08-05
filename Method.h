@@ -1,4 +1,4 @@
-#ifndef METHOD_H
+﻿#ifndef METHOD_H
 #define METHOD_H
 #include <cmath>
 #include <iomanip>
@@ -28,15 +28,15 @@ private:
 
 private:
 
-    QVector< QPair< qreal, qreal > >        m_colMinVertices;
-    QVector< QPair< qreal, qreal > >        m_colMaxVertices;
-    QVector< QVector< qreal > >             m_colMassiv;
-    QVector< qreal >                        m_colInputX;
-    QVector< qreal >                        m_colInputY;
-    QVector< qreal >                        m_colVectorC;
-    QVector< qreal >                        m_colDerivative;
-    size_t                                  m_iSize;
-    size_t                                  m_iDegree;
+    QVector< QPair< qreal, qreal > >        minVertices;
+    QVector< QPair< qreal, qreal > >        maxVertices;
+    QVector< QVector< qreal > >             massiv;
+    QVector< qreal >                        inputX;
+    QVector< qreal >                        inputY;
+    QVector< qreal >                        vectorC;
+    QVector< qreal >                        derivative;
+    size_t                                  size;
+    size_t                                  degree;
 
 };
 

@@ -1,4 +1,4 @@
-#include "FilterDate.h"
+﻿#include "FilterDate.h"
 #include <QFile>
 #include <QTextStream>
 
@@ -61,18 +61,18 @@ void CFilterDate::PolySmoorthM(QVector<qreal> &sData,const size_t ndeg,const siz
     QScopedPointer<CPolinom> colPolinom(new CPolinom ( function.size(), ndeg + 1, function ));
     colPolinom->LeastSquareMethod();
     colPolinom->Gauss();
-    m_colValue.push_back(colPolinom->ValueFunction(index));
+    value.push_back(colPolinom->ValueFunction(index));
     colPolinom->CalcDerivative();
-    m_colValueDev.push_back(colPolinom->ValueDerFunction(index));
-    m_colValueDev2.push_back(colPolinom->ValueSecondDerFunction(index));
+    valueDev.push_back(colPolinom->ValueDerFunction(index));
+    valueDev2.push_back(colPolinom->ValueSecondDerFunction(index));
     if(colPolinom->ValueSecondDerFunction(index) != 0)
     {
      qreal vCRadius = pow(1+pow(colPolinom->ValueDerFunction(index),2),3/2) / pow(pow(colPolinom->ValueSecondDerFunction(index),2),0.5);
 
      //qreal CRadius = (pow(1 + colPolinom->ValueDerFunction(index), 3/2)) / colPolinom->ValueSecondDerFunction(index);
-     m_colCurveRadius.push_back( vCRadius );
+     curveRadius.push_back( vCRadius );
     }
-    else m_colCurveRadius.push_back( 0 );
+    else curveRadius.push_back( 0 );
 }
 
 QPair< QVector< qreal >, QVector< qreal > > CFilterDate::GetDebPoly
@@ -125,7 +125,7 @@ QVector<qreal> CFilterDate::GetAproxPoly()
 //    }
 //    return VectorY;
 
-   return m_colValue;
+   return value;
 
 }
 
@@ -136,7 +136,7 @@ void                                        CFilterDate::SavePolyToFile( const Q
     {
         QTextStream textBuffer( & workingFile );
 
-        for( auto pair : m_colAproxPoly )
+        for( auto pair : aproxPoly )
         {
             textBuffer << pair.second << "\n";
         }
@@ -150,7 +150,7 @@ QVector< QPair< qreal, qreal > >              CFilterDate::GetVertices( qreal dI
 {
     QVector< QPair< qreal, qreal > > colMaxVertices;
 
-    for( auto pair : m_colVertices )
+    for( auto pair : vertices )
     {
         if( ( pair.first >= dInputA ) && ( pair.first <= dInputB ) )
         {
@@ -167,7 +167,7 @@ QVector< QPair< qreal, qreal > >              CFilterDate::GetMinVertices( qreal
 {
     QVector< QPair< qreal, qreal > > colMinVertices;
 
-    for( auto pair : m_colMinVertices )
+    for( auto pair : minVertices )
     {
         if( ( pair.first >= dInputA ) && ( pair.first <= dInputB ) )
         {
@@ -182,8 +182,8 @@ QVector< QPair< qreal, qreal > >              CFilterDate::GetMinVertices( qreal
 
 qreal CFilterDate::GetDerivative( const qreal &x )
 {
-    if( ( x >= 0) && (x < m_colValueDev.count()))
-        return m_colValueDev[x];
+    if( ( x >= 0) && (x < valueDev.count()))
+        return valueDev[x];
 //    if( ( x >= 0) && (x < m_colValueDerivative.count()))
 //        return m_colValueDerivative[x];
     return 0;
@@ -191,8 +191,8 @@ qreal CFilterDate::GetDerivative( const qreal &x )
 
 qreal CFilterDate::GetSecondDrivative( const qreal &x )
 {
-    if( ( x >= 0) && (x < m_colValueDev2.count()))
-        return m_colValueDev2[x];
+    if( ( x >= 0) && (x < valueDev2.count()))
+        return valueDev2[x];
 //    if( ( x >= 0) && (x < m_colValueSecondDerivative.count()))
 //        return m_colValueSecondDerivative[x];
     return 0;
@@ -200,15 +200,15 @@ qreal CFilterDate::GetSecondDrivative( const qreal &x )
 
 qreal CFilterDate::GetCurveRadius( const qreal &x )
 {
-    if( ( x >= 0) && (x < m_colCurveRadius.count()))
-        return m_colCurveRadius[x];
+    if( ( x >= 0) && (x < curveRadius.count()))
+        return curveRadius[x];
     return 0;
 }
 
 qreal CFilterDate::GetCurvative(const qreal &x)
 {
-    if( ( x >= 0) && (x < m_colCurvative.count()))
-        return m_colCurvative[x];
+    if( ( x >= 0) && (x < curvative.count()))
+        return curvative[x];
     return 0;
 }
 
@@ -218,20 +218,20 @@ void CFilterDate::XTrAlgorithm(const size_t &lBorder, const size_t &rBorder)
     size_t x_2 = rBorder;
     for(size_t i = x_1; i < x_2; i++)
     {
-        if(( m_colValueDev[i] * m_colValueDev[i+1] ) < 0 )
+        if(( valueDev[i] * valueDev[i+1] ) < 0 )
         {
-          qreal Extrema_X =  i + ( m_colValueDev[i]/(m_colValueDev[i]-m_colValueDev[i+1]) );
-          qreal Extrema_Y = ( m_colValue[i+1]-m_colValue[i]) * Extrema_X + m_colValue[i]-i*(m_colValue[i+1]-m_colValue[i]);
-          qreal D2V  = ( m_colValueDev2[i+1]-m_colValueDev2[i]) * Extrema_X + m_colValueDev2[i]-i*(m_colValueDev2[i+1]-m_colValueDev2[i]);
-          qreal Curvative = ( m_colCurveRadius[i+1] - m_colCurveRadius[i] ) * Extrema_X + m_colCurveRadius[i] - i * ( m_colCurveRadius[i+1] - m_colCurveRadius[i] );
-          m_colCurvative.push_back(Curvative);
+          qreal Extrema_X =  i + ( valueDev[i]/(valueDev[i]-valueDev[i+1]) );
+          qreal Extrema_Y = ( value[i+1]-value[i]) * Extrema_X + value[i]-i*(value[i+1]-value[i]);
+          qreal D2V  = ( valueDev2[i+1]-valueDev2[i]) * Extrema_X + valueDev2[i]-i*(valueDev2[i+1]-valueDev2[i]);
+          qreal Curvative = ( curveRadius[i+1] - curveRadius[i] ) * Extrema_X + curveRadius[i] - i * ( curveRadius[i+1] - curveRadius[i] );
+          curvative.push_back(Curvative);
           if( D2V < 0 )
           {
-              m_colVertices.push_back( QPair< qreal, qreal >( Extrema_X, Extrema_Y ) );
+              vertices.push_back( QPair< qreal, qreal >( Extrema_X, Extrema_Y ) );
           }
           if( D2V > 0)
           {
-              m_colMinVertices.push_back( QPair< qreal, qreal >( Extrema_X, Extrema_Y ) );
+              minVertices.push_back( QPair< qreal, qreal >( Extrema_X, Extrema_Y ) );
           }
         }
     }
@@ -251,21 +251,21 @@ void CFilterDate::ConstructionPolynomial(QVector<qreal> &date, const size_t Ndeg
     colPolinom->Gauss();
     for( size_t i = 0; i < isize; i++ )
     {
-        m_colAproxPoly.push_back( QPair< qreal , qreal >( i , colPolinom->ValueFunction( i ) ) );
+        aproxPoly.push_back( QPair< qreal , qreal >( i , colPolinom->ValueFunction( i ) ) );
     }
     colPolinom->CalcDerivative();
     colPolinom->SearchRoots( 0, isize - 1 );
     for( auto vert : colPolinom->ReturnMaxVertices() )
     {
-        m_colVertices.push_back( QPair< qreal , qreal > (vert.first + from, vert.second ));
+        vertices.push_back( QPair< qreal , qreal > (vert.first + from, vert.second ));
     }
     for( auto vert : colPolinom->ReturnMinVertices() )
     {
-        m_colMinVertices.push_back( QPair< qreal , qreal > (vert.first + from, vert.second ));
+        minVertices.push_back( QPair< qreal , qreal > (vert.first + from, vert.second ));
     }
     for( size_t i = 0 ; i < isize; i++)
     {
-        m_colValueDerivative.push_back( colPolinom->ValueDerFunction( i ) );
-        m_colValueSecondDerivative.push_back( colPolinom->ValueSecondDerFunction( i ) );
+        valueDerivative.push_back( colPolinom->ValueDerFunction( i ) );
+        valueSecondDerivative.push_back( colPolinom->ValueSecondDerFunction( i ) );
     }
 }
