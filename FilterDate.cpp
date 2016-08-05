@@ -68,8 +68,6 @@ void CFilterDate::PolySmoorthM(QVector<qreal> &sData,const size_t ndeg,const siz
     if(colPolinom->ValueSecondDerFunction(index) != 0)
     {
      qreal vCRadius = pow(1+pow(colPolinom->ValueDerFunction(index),2),3/2) / pow(pow(colPolinom->ValueSecondDerFunction(index),2),0.5);
-
-     //qreal CRadius = (pow(1 + colPolinom->ValueDerFunction(index), 3/2)) / colPolinom->ValueSecondDerFunction(index);
      curveRadius.push_back( vCRadius );
     }
     else curveRadius.push_back( 0 );
@@ -118,15 +116,7 @@ void CFilterDate::Filter( QVector < qreal > & colDate, const size_t Ndegree ,con
 
 QVector<qreal> CFilterDate::GetAproxPoly()
 {
-//    QVector<qreal> VectorY;
-//    for( int i =0; i < m_colValue.count(); i++ )
-//    {
-//        VectorY.push_back( m_colValue[i] );
-//    }
-//    return VectorY;
-
    return value;
-
 }
 
 void                                        CFilterDate::SavePolyToFile( const QString & filename )
@@ -184,8 +174,6 @@ qreal CFilterDate::GetDerivative( const qreal &x )
 {
     if( ( x >= 0) && (x < valueDev.count()))
         return valueDev[x];
-//    if( ( x >= 0) && (x < m_colValueDerivative.count()))
-//        return m_colValueDerivative[x];
     return 0;
 }
 
@@ -193,8 +181,6 @@ qreal CFilterDate::GetSecondDrivative( const qreal &x )
 {
     if( ( x >= 0) && (x < valueDev2.count()))
         return valueDev2[x];
-//    if( ( x >= 0) && (x < m_colValueSecondDerivative.count()))
-//        return m_colValueSecondDerivative[x];
     return 0;
 }
 
@@ -241,7 +227,7 @@ void CFilterDate::XTrAlgorithm(const size_t &lBorder, const size_t &rBorder)
 void CFilterDate::ConstructionPolynomial(QVector<qreal> &date, const size_t Ndegree, const size_t from, const size_t to)
 {
     QVector < QPair< qreal, qreal > > function;
-    size_t isize = abs((int)to-(int)from);
+    size_t isize = abs((int)to - (int)from);
     for( size_t i = 0; (i + from <= to)&&(i+from<128); i++ )
     {
         function.push_back( QPair< qreal , qreal > ( i , date[ i + from ] ) );

@@ -300,7 +300,7 @@ qreal                                       CPolinom::Newton( qreal & x1, qreal 
     {
         f_derivative += pow( x1, counter - 1 ) * derivative[ counter ] * counter;
     }
-    if( f_derivative )
+    if( f_derivative != 0 )
     {
         x2 = x1;
         x1 = x1 - ValueDerFunction( x1 ) / f_derivative;
