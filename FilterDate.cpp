@@ -1,5 +1,4 @@
 #include "FilterDate.h"
-#include <iostream>
 #include <QFile>
 #include <QTextStream>
 
@@ -9,7 +8,7 @@ CFilterDate::CFilterDate(QVector<qreal> &date, const size_t Ndegree, const size_
 {
     size_t Ndeg = Ndegree;
     if(Ndeg>71) Ndeg = 70;
-    size_t SizeRunningWindow = SizeRWindow;
+    int SizeRunningWindow = SizeRWindow;
     int size = date.size();
     int index;
     if((SizeRunningWindow%2)==0)
@@ -52,7 +51,7 @@ CFilterDate::CFilterDate(QVector<qreal> &date, const size_t Ndegree, const size_
     XTrAlgorithm(0,size-1);
 }
 
-void                                        CFilterDate::PolySmoorthM(QVector<qreal> &sData,const size_t ndeg,const size_t index)
+void CFilterDate::PolySmoorthM(QVector<qreal> &sData,const size_t ndeg,const size_t index)
 {
     QVector < QPair< qreal, qreal > > function;
     for( int i = 0; i<sData.size(); i++ )
@@ -104,7 +103,7 @@ QPair< QVector< qreal >, QVector< qreal > > CFilterDate::GetDebPoly
     return QPair< QVector< qreal >, QVector< qreal > >( x, poly );
 }
 
-void                                        CFilterDate::Filter( QVector < qreal > & colDate, const size_t Ndegree ,const size_t SizeRunningWindow)
+void CFilterDate::Filter( QVector < qreal > & colDate, const size_t Ndegree ,const size_t SizeRunningWindow)
 {
     size_t dSize = colDate.count();
     size_t from = 0;
@@ -242,7 +241,7 @@ void CFilterDate::XTrAlgorithm(const size_t &lBorder, const size_t &rBorder)
 void CFilterDate::ConstructionPolynomial(QVector<qreal> &date, const size_t Ndegree, const size_t from, const size_t to)
 {
     QVector < QPair< qreal, qreal > > function;
-    size_t isize = abs(to-from);
+    size_t isize = abs((int)to-(int)from);
     for( size_t i = 0; (i + from <= to)&&(i+from<128); i++ )
     {
         function.push_back( QPair< qreal , qreal > ( i , date[ i + from ] ) );
