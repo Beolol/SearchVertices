@@ -119,7 +119,7 @@ QVector<qreal> FilterData::GetAproxPoly()
    return value;
 }
 
-void                                        FilterData::SavePolyToFile( const QString & filename )
+void FilterData::SavePolyToFile( const QString & filename )
 {
     QFile workingFile( filename );
     if( workingFile.open( QFile::WriteOnly | QFile::Text ) )
@@ -136,7 +136,7 @@ void                                        FilterData::SavePolyToFile( const QS
     }
 }
 
-QVector< QPair< qreal, qreal > >              FilterData::GetVertices( qreal dInputA, qreal dInputB )
+QVector< QPair< qreal, qreal > > FilterData::GetVertices( qreal dInputA, qreal dInputB )
 {
     QVector< QPair< qreal, qreal > > colMaxVertices;
 
@@ -153,7 +153,7 @@ QVector< QPair< qreal, qreal > >              FilterData::GetVertices( qreal dIn
     return colMaxVertices;
 }
 
-QVector< QPair< qreal, qreal > >              FilterData::GetMinVertices( qreal dInputA, qreal dInputB )
+QVector< QPair< qreal, qreal > > FilterData::GetMinVertices( qreal dInputA, qreal dInputB )
 {
     QVector< QPair< qreal, qreal > > colMinVertices;
 
