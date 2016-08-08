@@ -8,10 +8,10 @@
 #include <QScopedPointer>
 #include "Method.h"
 
-class CFilterDate
+class FilterData
 {
 public:
-    CFilterDate(QVector<qreal> &date, const size_t Ndegree
+    FilterData(QVector<qreal> &date, const size_t Ndegree
                                             , const size_t SizeRunningWindow = 16);
     QVector< qreal >                        GetAproxPoly();
     void                                    SavePolyToFile( const QString & filename );

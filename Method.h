@@ -6,10 +6,10 @@
 #include <QVector>
 #include <QPair>
 
-class CPolinom
+class Polinom
 {
 public:
-    CPolinom( size_t NSize, size_t Ndegree, const QVector< QPair< qreal, qreal > > & function );
+    Polinom( size_t NSize, size_t Ndegree, const QVector< QPair< qreal, qreal > > & function );
     void                                    LeastSquareMethod();
     void                                    PrintMassive();
     void                                    Gauss();

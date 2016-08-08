@@ -4,7 +4,7 @@
 
 
 
-CFilterDate::CFilterDate(QVector<qreal> &date, const size_t Ndegree, const size_t SizeRWindow)
+FilterData::FilterData(QVector<qreal> &date, const size_t Ndegree, const size_t SizeRWindow)
 {
     size_t Ndeg = Ndegree;
     if(Ndeg>71) Ndeg = 70;
@@ -51,14 +51,14 @@ CFilterDate::CFilterDate(QVector<qreal> &date, const size_t Ndegree, const size_
     XTrAlgorithm(0,size-1);
 }
 
-void CFilterDate::PolySmoorthM(QVector<qreal> &sData,const size_t ndeg,const size_t index)
+void FilterData::PolySmoorthM(QVector<qreal> &sData,const size_t ndeg,const size_t index)
 {
     QVector < QPair< qreal, qreal > > function;
     for( int i = 0; i<sData.size(); i++ )
     {
         function.push_back( QPair< qreal , qreal > ( i /*+ sData_length*/, sData[ i ] ) );
     }
-    QScopedPointer<CPolinom> colPolinom(new CPolinom ( function.size(), ndeg + 1, function ));
+    QScopedPointer<Polinom> colPolinom(new Polinom ( function.size(), ndeg + 1, function ));
     colPolinom->LeastSquareMethod();
     colPolinom->Gauss();
     value.push_back(colPolinom->ValueFunction(index));
@@ -73,7 +73,7 @@ void CFilterDate::PolySmoorthM(QVector<qreal> &sData,const size_t ndeg,const siz
     else curveRadius.push_back( 0 );
 }
 
-QPair< QVector< qreal >, QVector< qreal > > CFilterDate::GetDebPoly
+QPair< QVector< qreal >, QVector< qreal > > FilterData::GetDebPoly
 (
     QVector< qreal > &                      sData,
     const size_t                            ndeg,
@@ -85,7 +85,7 @@ QPair< QVector< qreal >, QVector< qreal > > CFilterDate::GetDebPoly
     {
         function.push_back( QPair< qreal , qreal > ( i+from, sData[ i ] ) );
     }
-    QScopedPointer< CPolinom > colPolinom( new CPolinom ( function.size(), ndeg + 1, function ) );
+    QScopedPointer< Polinom > colPolinom( new Polinom ( function.size(), ndeg + 1, function ) );
     colPolinom->LeastSquareMethod();
     colPolinom->Gauss();
 
@@ -101,7 +101,7 @@ QPair< QVector< qreal >, QVector< qreal > > CFilterDate::GetDebPoly
     return QPair< QVector< qreal >, QVector< qreal > >( x, poly );
 }
 
-void CFilterDate::Filter( QVector < qreal > & colDate, const size_t Ndegree ,const size_t SizeRunningWindow)
+void FilterData::Filter( QVector < qreal > & colDate, const size_t Ndegree ,const size_t SizeRunningWindow)
 {
     size_t dSize = colDate.count();
     size_t from = 0;
@@ -114,12 +114,12 @@ void CFilterDate::Filter( QVector < qreal > & colDate, const size_t Ndegree ,con
     }
 }
 
-QVector<qreal> CFilterDate::GetAproxPoly()
+QVector<qreal> FilterData::GetAproxPoly()
 {
    return value;
 }
 
-void                                        CFilterDate::SavePolyToFile( const QString & filename )
+void                                        FilterData::SavePolyToFile( const QString & filename )
 {
     QFile workingFile( filename );
     if( workingFile.open( QFile::WriteOnly | QFile::Text ) )
@@ -136,7 +136,7 @@ void                                        CFilterDate::SavePolyToFile( const Q
     }
 }
 
-QVector< QPair< qreal, qreal > >              CFilterDate::GetVertices( qreal dInputA, qreal dInputB )
+QVector< QPair< qreal, qreal > >              FilterData::GetVertices( qreal dInputA, qreal dInputB )
 {
     QVector< QPair< qreal, qreal > > colMaxVertices;
 
@@ -153,7 +153,7 @@ QVector< QPair< qreal, qreal > >              CFilterDate::GetVertices( qreal dI
     return colMaxVertices;
 }
 
-QVector< QPair< qreal, qreal > >              CFilterDate::GetMinVertices( qreal dInputA, qreal dInputB )
+QVector< QPair< qreal, qreal > >              FilterData::GetMinVertices( qreal dInputA, qreal dInputB )
 {
     QVector< QPair< qreal, qreal > > colMinVertices;
 
@@ -170,35 +170,35 @@ QVector< QPair< qreal, qreal > >              CFilterDate::GetMinVertices( qreal
     return colMinVertices;
 }
 
-qreal CFilterDate::GetDerivative( const qreal &x )
+qreal FilterData::GetDerivative( const qreal &x )
 {
     if( ( x >= 0) && (x < valueDev.count()))
         return valueDev[x];
     return 0;
 }
 
-qreal CFilterDate::GetSecondDrivative( const qreal &x )
+qreal FilterData::GetSecondDrivative( const qreal &x )
 {
     if( ( x >= 0) && (x < valueDev2.count()))
         return valueDev2[x];
     return 0;
 }
 
-qreal CFilterDate::GetCurveRadius( const qreal &x )
+qreal FilterData::GetCurveRadius( const qreal &x )
 {
     if( ( x >= 0) && (x < curveRadius.count()))
         return curveRadius[x];
     return 0;
 }
 
-qreal CFilterDate::GetCurvative(const qreal &x)
+qreal FilterData::GetCurvative(const qreal &x)
 {
     if( ( x >= 0) && (x < curvative.count()))
         return curvative[x];
     return 0;
 }
 
-void CFilterDate::XTrAlgorithm(const size_t &lBorder, const size_t &rBorder)
+void FilterData::XTrAlgorithm(const size_t &lBorder, const size_t &rBorder)
 {
     size_t x_1 = lBorder;
     size_t x_2 = rBorder;
@@ -224,7 +224,7 @@ void CFilterDate::XTrAlgorithm(const size_t &lBorder, const size_t &rBorder)
 
 }
 
-void CFilterDate::ConstructionPolynomial(QVector<qreal> &date, const size_t Ndegree, const size_t from, const size_t to)
+void FilterData::ConstructionPolynomial(QVector<qreal> &date, const size_t Ndegree, const size_t from, const size_t to)
 {
     QVector < QPair< qreal, qreal > > function;
     size_t isize = abs((int)to - (int)from);
@@ -232,7 +232,7 @@ void CFilterDate::ConstructionPolynomial(QVector<qreal> &date, const size_t Ndeg
     {
         function.push_back( QPair< qreal , qreal > ( i , date[ i + from ] ) );
     }
-    QScopedPointer<CPolinom> colPolinom(new CPolinom ( isize, Ndegree + 1, function ));
+    QScopedPointer<Polinom> colPolinom(new Polinom ( isize, Ndegree + 1, function ));
     colPolinom->LeastSquareMethod();
     colPolinom->Gauss();
     for( size_t i = 0; i < isize; i++ )

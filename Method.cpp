@@ -5,7 +5,7 @@
 
 using namespace std;
 
-CPolinom::CPolinom( size_t NSize, size_t Ndegree, const QVector< QPair< qreal, qreal > > & function )
+Polinom::Polinom( size_t NSize, size_t Ndegree, const QVector< QPair< qreal, qreal > > & function )
 {
     size = NSize;
     degree = Ndegree;
@@ -23,7 +23,7 @@ CPolinom::CPolinom( size_t NSize, size_t Ndegree, const QVector< QPair< qreal, q
     }
 }
 
-qreal                                       CPolinom::ValueFunction( const qreal & x )
+qreal                                       Polinom::ValueFunction( const qreal & x )
 {
     qreal function = 0;
     for( size_t counter = 0; counter < degree; counter++ )
@@ -33,7 +33,7 @@ qreal                                       CPolinom::ValueFunction( const qreal
     return function;
 }
 
-void                                        CPolinom::PrintMassive()
+void                                        Polinom::PrintMassive()
 {
 #ifdef USE_STDOUT
     std::cout << "matrix " << m_iDegree << "x" << m_iDegree << ":" << std::endl;
@@ -49,7 +49,7 @@ void                                        CPolinom::PrintMassive()
 }
 
 
-void                                        CPolinom::Gauss()
+void                                        Polinom::Gauss()
 {
 #ifdef USE_STDOUT
     std::cout<<"input Gauss"<<std::endl;
@@ -105,7 +105,7 @@ void                                        CPolinom::Gauss()
 #endif
 }
 
-void                                        CPolinom::CalcDerivative()
+void                                        Polinom::CalcDerivative()
 {
 #ifdef USE_STDOUT
     std::cout <<"input Derivative"<<std::endl;
@@ -130,7 +130,7 @@ void                                        CPolinom::CalcDerivative()
 }
 
 
-void                                        CPolinom::SearchRoots( const qreal & lBorder, const qreal & section )
+void                                        Polinom::SearchRoots( const qreal & lBorder, const qreal & section )
 {
 #ifdef USE_STDOUT
     std::cout <<"input SearchRoots"<<std::endl;
@@ -216,7 +216,7 @@ void                                        CPolinom::SearchRoots( const qreal &
 }
 
 
-void                                        CPolinom::LeastSquareMethod()
+void                                        Polinom::LeastSquareMethod()
 {
 #ifdef USE_STDOUT
     std::cout <<"input LeastSquareMethod"<<std::endl;
@@ -242,7 +242,7 @@ void                                        CPolinom::LeastSquareMethod()
 }
 
 
-qreal                                       CPolinom::MethodSecants( qreal & x1, qreal & x2, const qreal & e )
+qreal                                       Polinom::MethodSecants( qreal & x1, qreal & x2, const qreal & e )
 {
 #ifdef USE_STDOUT
     std::cout <<"input MethodSecants"<<std::endl;
@@ -263,7 +263,7 @@ qreal                                       CPolinom::MethodSecants( qreal & x1,
     std::cout <<"output MethodSecants"<<std::endl;
 #endif
 }
-qreal                                       CPolinom::ValueDerFunction( const qreal & x )
+qreal                                       Polinom::ValueDerFunction( const qreal & x )
 {
     qreal function = 0;
     for( size_t counter = 0; counter < degree - 1; counter++ )
@@ -273,7 +273,7 @@ qreal                                       CPolinom::ValueDerFunction( const qr
     return function;
 }
 
-qreal                                       CPolinom::ValueSecondDerFunction( const qreal & x )
+qreal                                       Polinom::ValueSecondDerFunction( const qreal & x )
 {
     qreal function = 0;
     for( size_t counter = 1; counter < degree - 1; counter++ )
@@ -283,7 +283,7 @@ qreal                                       CPolinom::ValueSecondDerFunction( co
     return function;
 }
 
-qreal                                       CPolinom::Newton( qreal & x1, qreal & x2, const qreal & e )
+qreal                                       Polinom::Newton( qreal & x1, qreal & x2, const qreal & e )
 {
 #ifdef USE_STDOUT
     std::cout <<"input Newton"<<std::endl;
@@ -312,7 +312,7 @@ qreal                                       CPolinom::Newton( qreal & x1, qreal 
     return 0;
 }
 
-QVector< QPair< qreal, qreal > >            CPolinom::ReturnFunction()
+QVector< QPair< qreal, qreal > >            Polinom::ReturnFunction()
 {
     QVector < QPair< qreal, qreal > > result;
     for( size_t counter = 0; counter < size; counter++ )
@@ -323,17 +323,17 @@ QVector< QPair< qreal, qreal > >            CPolinom::ReturnFunction()
     return result;
 }
 
-QVector< QPair< qreal, qreal > >            CPolinom::ReturnMaxVertices()
+QVector< QPair< qreal, qreal > >            Polinom::ReturnMaxVertices()
 {
     return maxVertices;
 }
 
-QVector< QPair< qreal, qreal > >            CPolinom::ReturnMinVertices()
+QVector< QPair< qreal, qreal > >            Polinom::ReturnMinVertices()
 {
     return minVertices;
 }
 
-void                                        CPolinom::Frebenius()
+void                                        Polinom::Frebenius()
 {
     QVector< QVector< qreal > > matrix( degree - 1 );
     for( size_t count = 0; count < degree - 1; count++ )
